@@ -64,7 +64,7 @@ func parseDownstream(doc *goquery.Document) []downstreamData {
 		data := selection.Find("td")
 		ch := downstreamData{
 			DCID:           mustNodeAsInt(data.Nodes[1]),
-			Freq:           mustNodeAsFloat(data.Nodes[2]),
+			Freq:           mustNodeAsFloat(data.Nodes[2]) * 1000,
 			Power:          mustNodeAsFloat(data.Nodes[3]),
 			SNR:            mustNodeAsFloat(data.Nodes[4]),
 			Modulation:     mustNodeAsInt(data.Nodes[5]),

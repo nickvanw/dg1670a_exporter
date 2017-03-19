@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/nickvanw/dg1670a_exporter"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (
@@ -23,8 +24,13 @@ func main() {
 		log.Fatalf("unable to create client: %s", err)
 	}
 
-	c.Collect(nil)
+	prometheus.MustRegister(c)
 
+	http.Handle(*metricsPath, prometheus.Handler())
+
+	if err := http.ListenAndServe(*metricsAddr, nil); err != nil {
+		log.Fatalf("unable to start metrics server: %s", err)
+	}
 }
 
 func createExporter(modem string) (*dg1670aexporter.Exporter, error) {
