@@ -4,7 +4,9 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/nickvanw/dg1670a_exporter"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -26,9 +28,19 @@ func main() {
 
 	prometheus.MustRegister(c)
 
-	http.Handle(*metricsPath, prometheus.Handler())
-
-	if err := http.ListenAndServe(*metricsAddr, nil); err != nil {
+	mux := http.NewServeMux()
+	mux.Handle(*metricsPath, prometheus.Handler())
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`<html>
+			<head><title>Arris DG1670a Exporter</title></head>
+			<body>
+			<h1>Arris DG1670a Exporter</h1>
+			<p><a href='` + *metricsPath + `'>Metrics</a></p>
+			</body>
+			</html>`))
+	})
+	loggedMux := handlers.LoggingHandler(os.Stdout, mux)
+	if err := http.ListenAndServe(*metricsAddr, loggedMux); err != nil {
 		log.Fatalf("unable to start metrics server: %s", err)
 	}
 }
