@@ -174,7 +174,7 @@ func (m *ModemCollector) collect() error {
 	}
 	for id, node := range data.ds {
 		downstreamID := strconv.Itoa(id + 1)
-		downstreamDCID := strconv.Itoa(node.DCID)
+		downstreamDCID := strconv.FormatInt(node.DCID, 10)
 		m.DownstreamSNR.WithLabelValues(downstreamID, downstreamDCID).Set(node.SNR)
 		m.DownstreamFreq.WithLabelValues(downstreamID, downstreamDCID).Set(node.Freq)
 		m.DownstreamPower.WithLabelValues(downstreamID, downstreamDCID).Set(node.Power)
@@ -186,7 +186,7 @@ func (m *ModemCollector) collect() error {
 
 	for id, node := range data.us {
 		upstreamID := strconv.Itoa(id + 1)
-		upstreamUCID := strconv.Itoa(node.UCID)
+		upstreamUCID := strconv.FormatInt(node.UCID, 10)
 
 		m.UpstreamFreq.WithLabelValues(upstreamID, upstreamUCID).Set(node.Freq)
 		m.UpstreamPower.WithLabelValues(upstreamID, upstreamUCID).Set(node.Power)
