@@ -106,10 +106,10 @@ func mustNodeAsFloat(d *html.Node) float64 {
 	}
 	return floatData
 }
-func mustNodeAsInt(d *html.Node) int {
+func mustNodeAsInt(d *html.Node) int64 {
 	data := strings.Replace(d.FirstChild.Data, "QAM", "", 1)
 	data = strings.Split(data, " ")[0]
-	intData, err := strconv.Atoi(data)
+	intData, err := strconv.ParseInt(data, 10, 64)
 	if err != nil {
 		panic("bad HTML node from modem")
 	}
@@ -122,21 +122,21 @@ type modemData struct {
 }
 
 type downstreamData struct {
-	DCID           int
+	DCID           int64
 	Freq           float64
 	Power          float64
 	SNR            float64
-	Modulation     int
-	Octets         int
-	Correcteds     int
-	Uncorrectables int
+	Modulation     int64
+	Octets         int64
+	Correcteds     int64
+	Uncorrectables int64
 }
 
 type upstreamData struct {
-	UCID        int
+	UCID        int64
 	Freq        float64
 	Power       float64
 	ChannelType string
-	SymbolRate  int
-	Modulation  int
+	SymbolRate  int64
+	Modulation  int64
 }
