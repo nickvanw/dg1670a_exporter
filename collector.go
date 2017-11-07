@@ -51,7 +51,7 @@ func NewModemCollector(c *client) *ModemCollector {
 		DownstreamFreq: prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
 				Namespace: namespace,
-				Name:      "downstrem_freq_hertz",
+				Name:      "downstream_freq_hertz",
 				Help:      "Modem Downstream Frequency (Hz)",
 			},
 			labelsDownstream,
@@ -96,7 +96,7 @@ func NewModemCollector(c *client) *ModemCollector {
 		DownstreamCorrecteds: prometheus.NewGaugeVec(
 			prometheus.GaugeOpts{
 				Namespace: namespace,
-				Name:      "dowmstream_correcteds_total",
+				Name:      "downstream_correcteds_total",
 				Help:      "Modem Downstream Correcteds",
 			},
 			labelsDownstream,
